@@ -32,19 +32,21 @@ def login():
     #check login
     if request.method == 'POST': 
          email_request = request.form['email']
-         email_list = ()
+         email_list = []
          email = db.test.find({'email':email_request}).limit(1)
          for i in email: 
             email_list.append(i)
          
          if len(email_list) != 0 :
-             return redirect('/home')
+             return render_template('user/user.html', email_list = email_list[0])
          else:
              return redirect('/login')         
          
 @app.route("/about/<name>")
 def about(name=None):
     return render_template("about.html", name=name)    
+
+
 
 @app.route("/register", methods=['GET', 'POST'])
 def register(): 
@@ -53,7 +55,7 @@ def register():
     
     if request.method == 'POST':
         name = {'username': request.form['username'], 'password': request.form['password'], 'email': request.form['email']}
-        db.database.insert(name)
+        db.test.insert(name)
         return redirect('/home') 
     else: 
         return "<h1>bad request</h1>"
