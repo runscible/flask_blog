@@ -1,0 +1,9 @@
+<title>about page</title>
+{% include "partials/header.html" %}
+<link rel="stylesheet" type="text/css" href="../static/css/styles.css">
+<script type="text/javascript" src="../static/js/script.js"></script>
+{% if name %}
+    <h3><pre>about {{name}}</pre></h3>
+{% else %} 
+    <h2><pre>error</pre></h2>
+{% endif %}    

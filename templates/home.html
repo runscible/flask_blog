@@ -1,0 +1,7 @@
+<title>home page</title>
+{% include 'partials/header.html' %}
+{% if name  %}
+<pre><h3>hello {{name}} !!</h3></pre>
+   {% else  %} 
+<pre><h3> home page </h3></pre>   
+{% endif %}
