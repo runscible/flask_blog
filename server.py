@@ -1,5 +1,8 @@
 from flask import Flask, render_template,make_response, request, jsonify, redirect
 from pymongo import MongoClient
+from bson.objectid import ObjectId
+import json
+
 
 #session imports 
 import bson
@@ -40,9 +43,9 @@ def login():
         if request.cookies.get('user_data'):
             d = request.cookies.get('user_data')
             data_request = request.cookies.get('user_data').split(',') 
-            data_json = data_request[1].split(':')
+            data_json = data_request[0].split(':')
             res = data_json[1]
-            return render_template('user/user.html', email_list = d)    
+            return redirect("/user/"+res[2:-1])   
         else:
             return render_template("login.html")
     
@@ -82,7 +85,18 @@ def register():
     else: 
         return "<h1>bad request</h1>"
 
-       
+@app.route("/user/<id_user>")
+def get_user(id_user=None): 
+    obj_id = ObjectId(id_user)
+    list = []
+
+    get_user = db.test.find({'_id': obj_id})
+    for i in get_user:
+        list.append(i)
+    
+    return render_template("user/user.html", email_list= list[0])
+
+
 #page not found
 @app.errorhandler(404)
 def page_not_found(error):
