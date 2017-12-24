@@ -13,10 +13,6 @@ app = Flask(__name__)
 mongo = MongoClient('localhost', 27017)
 database = 'test'
 db = mongo['test']
-#todo: 
-# (1)ver como guardar el bson que me viene desde mongodb como json[entero]
-# (2) como guardar solo el id del objeto 
-
 
 @app.route("/")
 def index(): 
@@ -41,11 +37,8 @@ def login():
     #load page login 
     if request.method == 'GET': 
         if request.cookies.get('user_data'):
-            d = request.cookies.get('user_data')
-            data_request = request.cookies.get('user_data').split(',') 
-            data_json = data_request[0].split(':')
-            res = data_json[1]
-            return redirect("/user/"+res[2:-1])   
+            res = request.cookies.get('user_data')
+            return redirect("user/"+res)  
         else:
             return render_template("login.html")
     
